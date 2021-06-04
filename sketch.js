@@ -43,6 +43,14 @@ var player2RightPunch,
   player2LeftLoose;
 var player2Win;
 
+var down1,kick1,left1,punch1,right1,up1;
+
+var down2,kick2,left2,punch2,right2,up2;
+
+var down1Img,kick1Img,left1Img,punch1Img,right1Img,up1Img;
+
+var down2Img,kick2Img,left2Img,punch2Img,right2Img,up2Img;
+
 var gameState;
 function preload() {
   //background
@@ -147,9 +155,13 @@ function preload() {
     "Images/Player1/Left/Move_left/8.png"
   );
 
-  //Blocking
-  // player1LeftBlock=loadAnimation("Images/Player1/Block/Left/2.png")
-  // player1RightBlock=loadAnimation("Images/Player1/Block/Right/2.png")
+  //CONTROLS
+  down1Img=loadImage("Images/controls/Down1.png")
+  up1Img=loadImage("Images/controls/Up1.png")
+  right1Img=loadImage("Images/controls/Right1.png")
+  left1Img=loadImage("Images/controls/Left1.png")
+  kick1Img=loadImage("Images/controls/kick1.png")
+  punch1Img=loadImage("Images/controls/punch1.png")
 
   //loosing animation
   player1LeftLoose = loadAnimation(
@@ -274,9 +286,13 @@ function preload() {
     "Images/Player2/Left/Move_right/8.png"
   );
 
-  //Blocking
-  //player2LeftBlock=loadAnimation("Images/Player2/Block/Left/2.png")
-  //player2RightBlock=loadAnimation("Images/Player2/Block/Right/2.png")
+    //CONTROLS
+    down2Img=loadImage("Images/controls/Down2.png")
+    up2Img=loadImage("Images/controls/Up2.png")
+    right2Img=loadImage("Images/controls/Right2.png")
+    left2Img=loadImage("Images/controls/Left2.png")
+    kick2Img=loadImage("Images/controls/kick2.png")
+    punch2Img=loadImage("Images/controls/punch2.png")
 
   //loosing animation
   player2LeftLoose = loadAnimation(
@@ -308,7 +324,7 @@ function setup() {
   frameRate(50);
   gameState = "play";
 
-  player1 = createSprite(300, height - 300, 50, 50);
+  player1 = createSprite(500, height - 300, 50, 50);
 
   player1.addAnimation("player1LeftNorm", player1LeftNorm);
   player1.addAnimation("player1RightNorm", player1RightNorm);
@@ -328,7 +344,7 @@ function setup() {
 
   player1.scale = 2.5;
 
-  player2 = createSprite(width - 300, 500, 50, 50);
+  player2 = createSprite(width - 500, 500, 50, 50);
 
   player2.addAnimation("player2RightNorm", player2RightNorm);
   player2.addAnimation("player2LeftNorm", player2LeftNorm);
@@ -359,6 +375,47 @@ function setup() {
   healthBar2.shapeColor = "white";
   healthLevel2 = createSprite(width - 150, 100, 280, 10);
   healthLevel2.shapeColor = "red";
+
+  //controls for player1
+  down1=createSprite(200,height-50,20,20);
+  down1.addImage("down1Img",down1Img);
+  down1.scale=0.5
+  up1=createSprite(200,height-225,20,20);
+  up1.addImage("up1Img",up1Img);
+  up1.scale=0.5
+  left1=createSprite(115,height-135,20,20);
+  left1.addImage("right1Img",left1Img);
+  left1.scale=0.5
+  right1=createSprite(285,height-135,20,20);
+  right1.addImage("right1Img",right1Img);
+  right1.scale=0.5
+  punch1=createSprite(207,height-135,20,20);
+  punch1.addImage("punch1Img",punch1Img);
+  punch1.scale=0.9
+  kick1=createSprite(285,height/2+200,20,20);
+  kick1.addImage("kick1Img",kick1Img);
+  kick1.scale=0.9
+
+  //controls for player2
+  down2=createSprite(width-200,height-50,20,20);
+  down2.addImage("down2Img",down2Img);
+  down2.scale=0.5
+  up2=createSprite(width-200,height-225,20,20);
+  up2.addImage("up2Img",up2Img);
+  up2.scale=0.5
+  left2=createSprite(width-115,height-135,20,20);
+  left2.addImage("right2Img",right2Img);
+  left2.scale=0.5
+  right2=createSprite(width-285,height-135,20,20);
+  right2.addImage("left2Img",left2Img);
+  right2.scale=0.5
+  punch2=createSprite(width-207,height-135,20,20);
+  punch2.addImage("punch2Img",punch2Img);
+  punch2.scale=0.9
+  kick2=createSprite(width-285,height/2+200,20,20);
+  kick2.addImage("kick2Img",kick2Img);
+  kick2.scale=0.9  
+
   //restart
   restart = createSprite(width / 2, height / 2 - 50, 20, 20);
   restart.addImage(restImg);
@@ -380,7 +437,7 @@ function draw() {
     }
     //player1 functions
     // Function for right movement of player 1
-    if (keyDown("d")) {
+    if (keyDown("d")||mousePressedOver(right1)) {
       //if(player1.x<player2.x){
       player1.x += 10;
       player1.changeAnimation("player1RightMove", player1RightMove);
@@ -388,7 +445,7 @@ function draw() {
 
     // Function for left movement of player 1
 
-    if (keyDown("a")) {
+    if (keyDown("a")||mousePressedOver(left1)) {
       player1.x -= 10;
       player1.changeAnimation("player1LeftMove", player1LeftMove);
     }
@@ -396,7 +453,7 @@ function draw() {
 
     //Function for player1 jumping
 
-    if (keyDown("w") && player1.y >= 500) {
+    if (keyDown("w")||mousePressedOver(up1) ) {
       player1.velocityY = -12;
       player1.changeAnimation("player1LeftJump", player1LeftJump);
     } else {
@@ -404,51 +461,51 @@ function draw() {
     }
 
     //Function for player1 punching
-    if (keyDown("e")) {
+    if (keyDown("e")||mousePressedOver(punch1)) {
       player1.changeAnimation("player1LeftPunch", player1LeftPunch);
       pMode = 0;
     }
     //Function for player1 kicking
-    if (keyDown("q")) {
+    if (keyDown("q")||mousePressedOver(kick1)) {
       player1.changeAnimation("player1LeftKick", player1LeftKick);
       pMode = 0;
     }
-    if (keyDown("s")) {
+    if (keyDown("s")||mousePressedOver(down1)) {
       player1.changeAnimation("player1LeftCrouch", player1LeftCrouch);
     }
 
     //player2 functions
 
-    if (keyDown(RIGHT_ARROW)) {
+    if (keyDown(RIGHT_ARROW)||mousePressedOver(left2)) {
       player2.x += 10;
       player2.changeAnimation("player2RightMove", player2RightMove);
     } else {
       player2.changeAnimation("player2RightNorm", player2RightNorm);
     }
 
-    if (keyDown(LEFT_ARROW)) {
+    if (keyDown(LEFT_ARROW)||mousePressedOver(right2)) {
       player2.x -= 10;
       player2.changeAnimation("player2LeftMove", player2LeftMove);
     } else {
       player2.changeAnimation("player2RightNorm", player2RightNorm);
     }
 
-    if (keyDown(UP_ARROW) && player2.y >= 500) {
+    if (keyDown(UP_ARROW) ||mousePressedOver(up2)) {
       player2.velocityY = -12;
       player2.changeAnimation("player2RightJump", player2RightJump);
     } else {
       player2.changeAnimation("player2RightNorm", player2RightNorm);
     }
-    if (keyDown("m")) {
+    if (keyDown("m")||mousePressedOver(punch2)) {
       player2.changeAnimation("player2RightPunch", player2RightPunch);
       pMode = 1;
     }
     //Function for player1 punching
-    if (keyDown("l")) {
+    if (keyDown("l")||mousePressedOver(kick2)) {
       player2.changeAnimation("player2RightKick", player2RightKick);
       pMode = 1;
     }
-    if (keyDown("DOWN_ARROW")) {
+    if (keyDown("DOWN_ARROW")||mousePressedOver(down2)) {
       player2.changeAnimation("player2RightCrouch", player2RightCrouch);
     }
     //health
@@ -484,9 +541,9 @@ function draw() {
   if (mousePressedOver(restart)) {
     gameState = "play";
     restart.visible = false;
-    player1.x = 300;
+    player1.x = 500;
     player1.y = height - 300;
-    player2.x = width - 300;
+    player2.x = width - 500;
     player2.y = height - 300;
     healthLevel1.x = 150;
     healthLevel2.x = width - 150;
